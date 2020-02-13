@@ -17,14 +17,14 @@ def checkgpu():
         return 'isavailable'
 
     if isavailable == [0]:
-        print("cant mine")
-        time.sleep(5)
+        print("gpu in use")
+        gpu.showUtilization()
+        time.sleep(500)
 
         return 'notavailable'
 
 
 def findProcessIdByName(processName):
-
     listOfProcessObjects = []
 
     # Iterate over the all the running process
@@ -47,35 +47,27 @@ def checkminer():
     else:
         return "running"
 
+
 def killminer():
     miner = findProcessIdByName('ccminer.exe')
     pid = miner[0]['pid']
     psutil.Process(pid).kill()
     print('killed miner')
 
-def startminer():
-   psutil.Popen(['E:\downloads\ccminer.bat'], creationflags=CREATE_NEW_CONSOLE)
 
+def startminer():
+    psutil.Popen(['E:\downloads\ccminer.bat'], creationflags=CREATE_NEW_CONSOLE)
 
 
 while True:
     gpus = checkgpu()
     miner = checkminer()
     if gpus is 'isavailable' and miner is 'notrunning':
-        print('can start miner')
+        print('starting miner')
         startminer()
         time.sleep(30)
     if gpus is 'isavailable' and miner is 'running':
         killminer()
         time.sleep(30)
-        #kill miner
 
-#TODO: check for games running  probably best way is to make a list of all games and check against list
-
-
-
-
-
-
-
-
+##TODO:check for games running  probably best way is to make a list of all games and check against list
