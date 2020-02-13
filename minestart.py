@@ -4,6 +4,7 @@
 import GPUtil as gpu
 import time
 import psutil
+from subprocess import CREATE_NEW_CONSOLE
 
 
 def checkgpu():
@@ -17,7 +18,7 @@ def checkgpu():
 
     if isavailable == [0]:
         print("cant mine")
-        time.sleep(500)
+        time.sleep(5)
 
         return 'notavailable'
 
@@ -53,7 +54,7 @@ def killminer():
     print('killed miner')
 
 def startminer():
-   psutil.Popen(['E:\downloads\ccminer.bat'])
+   psutil.Popen(['E:\downloads\ccminer.bat'], creationflags=CREATE_NEW_CONSOLE)
 
 
 
@@ -66,7 +67,11 @@ while True:
         time.sleep(30)
     if gpus is 'isavailable' and miner is 'running':
         killminer()
+        time.sleep(30)
         #kill miner
+
+#TODO: check for games running  probably best way is to make a list of all games and check against list
+
 
 
 
