@@ -5,20 +5,23 @@ import GPUtil as gpu
 import time
 
 
-def isavailable():
+def checkgpu():
     card = gpu.getGPUs()
-    isAvailable = gpu.getAvailability(card, maxLoad=.6)
+    isavailable = gpu.getAvailability(card, maxLoad=.6)
 
-    if isAvailable == [1]:
+    if isavailable == [1]:
         print("can mine")
         print(time.ctime())
         time.sleep(1)
 
-    if isAvailable == [0]:
+    if isavailable == [0]:
         print("cant mine")
         print(time.ctime())
         time.sleep(1)
-    return isAvailable
+    return isavailable
+
+def checkminer():
+
 
 while True:
 
