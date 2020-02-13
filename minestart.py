@@ -5,6 +5,7 @@ import GPUtil as gpu
 import time
 import psutil
 
+
 def checkgpu():
     card = gpu.getGPUs()
     isavailable = gpu.getAvailability(card, maxLoad=.6)
@@ -16,9 +17,9 @@ def checkgpu():
 
     if isavailable == [0]:
         print("cant mine")
-        time.sleep(5)
-        return 'notavailable'
+        time.sleep(500)
 
+        return 'notavailable'
 
 
 def findProcessIdByName(processName):
@@ -35,7 +36,7 @@ def findProcessIdByName(processName):
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
 
-    return listOfProcessObjects;
+    return listOfProcessObjects
 
 
 def checkminer():
@@ -45,6 +46,14 @@ def checkminer():
     else:
         return "running"
 
+def killminer():
+    miner = findProcessIdByName('ccminer.exe')
+    pid = miner[0]['pid']
+    psutil.Process(pid).kill()
+    print('killed miner')
+
+def startminer():
+   psutil.Popen(['E:\downloads\ccminer.bat'])
 
 
 
@@ -53,8 +62,12 @@ while True:
     miner = checkminer()
     if gpus is 'isavailable' and miner is 'notrunning':
         print('can start miner')
-    else:
-        print('cant start miner')
+        startminer()
+        time.sleep(30)
+    if gpus is 'isavailable' and miner is 'running':
+        killminer()
+        #kill miner
+
 
 
 
