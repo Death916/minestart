@@ -36,7 +36,6 @@ def findProcessIdByName(processName):
                 listOfProcessObjects.append(pinfo)
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
-
     return listOfProcessObjects
 
 
