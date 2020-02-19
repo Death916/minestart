@@ -7,6 +7,7 @@ import psutil
 from subprocess import CREATE_NEW_CONSOLE
 
 
+
 def checkgpu():
     card = gpu.getGPUs()
     isavailable = gpu.getAvailability(card, maxLoad=.6)
@@ -55,16 +56,24 @@ def killminer():
 
 
 def startminer():
-    psutil.Popen(['E:\downloads\ccminer.bat'], creationflags=CREATE_NEW_CONSOLE)
+    psutil.Popen(['E:/downloads/ccminer.bat'], creationflags=CREATE_NEW_CONSOLE)
 
+
+"""def log(x):
+    with open('C:/Users/Death/Documents/logs/gpulog.csv', 'a') as f:
+        f.write(str(time.ctime()) + '\n' + x + '\n')
+        f.close()
+"""
 
 while True:
     gpus = checkgpu()
     miner = checkminer()
+    usage = str(gpu.showUtilization())
+    #log(str(gpu.showUtilization()))
     if gpus is 'isavailable' and miner is 'notrunning':
         print('starting miner')
         startminer()
-        time.sleep(30)
+        time.sleep(120)
     if gpus is 'isavailable' and miner is 'running':
         killminer()
         time.sleep(30)
