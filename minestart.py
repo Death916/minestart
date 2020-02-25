@@ -6,7 +6,14 @@ import time
 import psutil
 from subprocess import CREATE_NEW_CONSOLE
 
-gameList = []
+gameList = {"gears": "gears5.exe",
+            "outer_worlds": "IndianaWindowsStore-Win64-Shipping.exe",
+            "total_war": "Three_Kingdoms.exe",
+            "poe": "PathOfExile_x64Steam"
+            
+}
+
+
 
 def checkgpu():
     card = gpu.getGPUs()
@@ -59,6 +66,24 @@ def startminer():
     psutil.Popen(['E:/downloads/ccminer.bat'], creationflags=CREATE_NEW_CONSOLE)
 
 
+
+def checkgames():
+    
+    game = 0
+    for i in gameList.values():
+        game = findProcessIdByName(i)
+        if game == []:
+            print(i + " is not running")
+            pass
+        else:
+            print(i + " is running" )
+            print(game)
+            killminer()
+            
+
+        
+           
+
 """def log(x):
     with open('C:/Users/Death/Documents/logs/gpulog.csv', 'a') as f:
         f.write(str(time.ctime()) + '\n' + x + '\n')
@@ -66,7 +91,7 @@ def startminer():
 """
 curTime = time.time()
 while True:
-    
+    checkgames()
     gpus = checkgpu()
     miner = checkminer()
     usage = str(gpu.showUtilization())
@@ -81,7 +106,7 @@ while True:
         killminer()
         time.sleep(30)
     
-    if time.time() - curTime > 100:
+    if time.time() - curTime > 21600:
         killminer()
         print('restarting')
         curTime = time.time()
