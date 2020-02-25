@@ -6,7 +6,7 @@ import time
 import psutil
 from subprocess import CREATE_NEW_CONSOLE
 
-
+gameList = []
 
 def checkgpu():
     card = gpu.getGPUs()
@@ -64,18 +64,28 @@ def startminer():
         f.write(str(time.ctime()) + '\n' + x + '\n')
         f.close()
 """
-
+curTime = time.time()
 while True:
+    
     gpus = checkgpu()
     miner = checkminer()
     usage = str(gpu.showUtilization())
     #log(str(gpu.showUtilization()))
+   
     if gpus is 'isavailable' and miner is 'notrunning':
         print('starting miner')
         startminer()
         time.sleep(120)
+    
     if gpus is 'isavailable' and miner is 'running':
         killminer()
         time.sleep(30)
+    
+    if time.time() - curTime > 100:
+        killminer()
+        print('restarting')
+        curTime = time.time()
+        time.sleep(10)
+
 
 ##TODO:check for games running  probably best way is to make a list of all games and check against list
