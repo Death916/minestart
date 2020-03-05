@@ -69,19 +69,23 @@ def startminer():
 
 def checkgames():
 
-    game = 0
     for i in gameList.values():
+        print(i)
         game = findProcessIdByName(i)
-        if game:
+        if game == []:
+            print(i + ' is not running')
+
+
+        else:
             print("game is running")
-            print(game)
+            print(i)
             miners = checkminer()
             if miners == 'running':
                 killminer()
-            keyboard.press_and_release('alt+y')
+                keyboard.press_and_release('alt+y')
+
             return 'gamerunning'
-        else:
-            return 'nogame'
+
             
         
            
@@ -93,10 +97,10 @@ def checkgames():
 """
 curTime = time.time()
 while True:
-    
+    checkgames()
     gpus = checkgpu()
     miner = checkminer()
-    checkgames()
+
     usage = str(gpu.showUtilization())
     #log(str(gpu.showUtilization()))
    
@@ -105,7 +109,7 @@ while True:
         if x != 'gamerunning':
             print('starting miner')
             startminer()
-            time.sleep(120)
+            time.sleep(12)
     
     if gpus is 'isavailable' and miner is 'running':
         killminer()
