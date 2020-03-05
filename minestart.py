@@ -1,10 +1,11 @@
 """" restart miner when gpu is low usage and kill miner if already running
 """
 
-import GPUtil as gpu
 import time
-import psutil
 from subprocess import CREATE_NEW_CONSOLE
+import GPUtil as gpu
+import keyboard
+import psutil
 
 gameList = {"gears": "gears5.exe",
             "outer_worlds": "IndianaWindowsStore-Win64-Shipping.exe",
@@ -12,7 +13,6 @@ gameList = {"gears": "gears5.exe",
             "poe": "PathOfExile_x64Steam"
             
 }
-
 
 
 def checkgpu():
@@ -27,7 +27,7 @@ def checkgpu():
     if isavailable == [0]:
         print("gpu in use")
         gpu.showUtilization()
-        time.sleep(500)
+        time.sleep(5)
 
         return 'notavailable'
 
@@ -63,24 +63,26 @@ def killminer():
 
 
 def startminer():
+    keyboard.press_and_release('alt+x') 
     psutil.Popen(['E:/downloads/ccminer.bat'], creationflags=CREATE_NEW_CONSOLE)
 
 
-
 def checkgames():
-    
+
     game = 0
     for i in gameList.values():
         game = findProcessIdByName(i)
-        if game == []:
-            print(i + " is not running")
-            pass
-        else:
-            print(i + " is running" )
+        if game:
+            print("game is running")
             print(game)
-            killminer()
+            miners = checkminer()
+            if miners == 'running':
+                killminer()
+            keyboard.press_and_release('alt+y')
+            return 'gamerunning'
+        else:
+            return 'nogame'
             
-
         
            
 
@@ -91,16 +93,19 @@ def checkgames():
 """
 curTime = time.time()
 while True:
-    checkgames()
+    
     gpus = checkgpu()
     miner = checkminer()
+    checkgames()
     usage = str(gpu.showUtilization())
     #log(str(gpu.showUtilization()))
    
     if gpus is 'isavailable' and miner is 'notrunning':
-        print('starting miner')
-        startminer()
-        time.sleep(120)
+        x = checkgames()
+        if x != 'gamerunning':
+            print('starting miner')
+            startminer()
+            time.sleep(120)
     
     if gpus is 'isavailable' and miner is 'running':
         killminer()
@@ -113,4 +118,6 @@ while True:
         time.sleep(10)
 
 
-##TODO:check for games running  probably best way is to make a list of all games and check against list
+##TODO:check temp
+
+#TODO: if no network kill and wait
