@@ -67,34 +67,31 @@ def startminer():
     psutil.Popen(['E:/downloads/ccminer.bat'], creationflags=CREATE_NEW_CONSOLE)
 
 
+# noinspection PySimplifyBooleanCheck
 def checkgames():
 
     for i in gameList.values():
-        print(i)
         game = findProcessIdByName(i)
         if game == []:
             print(i + ' is not running')
 
-
         else:
             print("game is running")
-            print(i)
+            
             miners = checkminer()
             if miners == 'running':
                 killminer()
-                keyboard.press_and_release('alt+y')
+                
 
             return 'gamerunning'
 
-            
-        
-           
 
 """def log(x):
     with open('C:/Users/Death/Documents/logs/gpulog.csv', 'a') as f:
         f.write(str(time.ctime()) + '\n' + x + '\n')
         f.close()
 """
+
 curTime = time.time()
 while True:
     checkgames()
@@ -108,20 +105,23 @@ while True:
         x = checkgames()
         if x != 'gamerunning':
             print('starting miner')
+            keyboard.press_and_release('alt+x')
             startminer()
             time.sleep(12)
     
     if gpus is 'isavailable' and miner is 'running':
-        killminer()
+        killminer() 
+        keyboard.press_and_release('alt+y')
         time.sleep(30)
     
     if time.time() - curTime > 21600:
-        killminer()
+        if miner: #dont run if miner not running
+            killminer()
         print('restarting')
         curTime = time.time()
         time.sleep(10)
 
 
-##TODO:check temp
-
+#TODO:check temp
 #TODO: if no network kill and wait
+#TODO: make sure evga precision is running
