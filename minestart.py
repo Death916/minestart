@@ -85,6 +85,16 @@ def checkgames():
 
             return 'gamerunning'
 
+def check_evga():
+    evga = findProcessIdByName('PrecisionX_x64.exe')
+    if evga == []:
+        print('evga not running')
+        psutil.Popen(['E:/Precision X1/PrecisionX_x64.exe'], shell=True)
+        evga = findProcessIdByName('PrecisionX_x64.exe')
+        if evga:
+            print('evga started')
+
+
 
 """def log(x):
     with open('C:/Users/Death/Documents/logs/gpulog.csv', 'a') as f:
@@ -97,6 +107,7 @@ while True:
     checkgames()
     gpus = checkgpu()
     miner = checkminer()
+    check_evga()
 
     usage = str(gpu.showUtilization())
     #log(str(gpu.showUtilization()))
@@ -124,4 +135,6 @@ while True:
 
 #TODO:check temp
 #TODO: if no network kill and wait
-#TODO: make sure evga precision is running
+#TODO: test check_evga(), get to work with uac on
+
+## log
