@@ -6,6 +6,7 @@ from subprocess import CREATE_NEW_CONSOLE
 import GPUtil as gpu
 import keyboard
 import psutil
+import sys
 
 gameList = {"gears": "gears5.exe",
             "outer_worlds": "IndianaWindowsStore-Win64-Shipping.exe",
@@ -13,9 +14,10 @@ gameList = {"gears": "gears5.exe",
             "poe": "PathOfExile_x64Steam",
             "valorant": "VALORANT-Win64-Shipping.exe",
             "Fallout 76": "fallout76.exe"
-            
+
 }
 
+miners = ['ccminer.exe', 'nanominer.exe']
 
 def checkgpu():
     card = gpu.getGPUs()
@@ -80,11 +82,11 @@ def checkgames():
 
         else:
             print("game is running")
-            
+
             miners = checkminer()
             if miners == 'running':
                 killminer()
-                
+
 
             return 'gamerunning'
 
@@ -114,7 +116,7 @@ while True:
 
     usage = str(gpu.showUtilization())
     #log(str(gpu.showUtilization()))
-   
+
     if gpus is 'isavailable' and miner is 'notrunning':
         x = checkgames()
         if x != 'gamerunning':
@@ -122,12 +124,12 @@ while True:
             keyboard.press_and_release('alt+x')
             startminer()
             time.sleep(12)
-    
+
     if gpus is 'isavailable' and miner is 'running':
         killminer() 
         keyboard.press_and_release('alt+y')
         time.sleep(30)
-    
+
     if time.time() - curTime > 21600:
         if miner: #dont run if miner not running
             killminer()
