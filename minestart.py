@@ -13,7 +13,8 @@ gameList = {"gears": "gears5.exe",
             "total_war": "Three_Kingdoms.exe",
             "poe": "PathOfExile_x64Steam",
             "valorant": "VALORANT-Win64-Shipping.exe",
-            "Fallout 76": "fallout76.exe"
+            "Fallout 76": "fallout76.exe",
+            "Total War: Troy": "troy.exe"
 
 }
 
@@ -52,10 +53,14 @@ def findProcessIdByName(processName):
 
 #check if miner is already running
 def checkminer():
-    minercheck = findProcessIdByName('ccminer.exe')
+    for miner in miners:
+        minercheck = findProcessIdByName(miner)
     if minercheck == []:
+        print('miner not running')
         return 'notrunning'
     else:
+        print('miner running')
+        print(miner)
         return "running"
 
 
@@ -141,6 +146,6 @@ while True:
 #TODO:check temp
 #TODO: if no network kill and wait
 #TODO: test check_evga(), get to work with uac on
-#TODO:  make sure evga goes to 100 when game starts
+#TODO: make sure evga goes to 100 when game starts
 #TODO: log
 #TODO: maybe make gui ???? maybe just exe
