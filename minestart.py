@@ -22,7 +22,10 @@ gameList = {"gears": "gears5.exe",
 curminer
 miners = ['ccminer.exe', 'nanominer.exe']
 
+
+
 def checkgpu():
+    '''check gpu availability and utilization'''
     card = gpu.getGPUs()
     isavailable = gpu.getAvailability(card, maxLoad=.6)
     print(time.ctime())
@@ -39,7 +42,9 @@ def checkgpu():
         return 'notavailable'
 
 
+
 def findProcessIdByName(processName):
+    """helper function to find miner exe"""
     listOfProcessObjects = []
 
     # Iterate over the all the running process
@@ -53,8 +58,9 @@ def findProcessIdByName(processName):
             pass
     return listOfProcessObjects
 
-#check if miner is already running
+
 def checkminer():
+    """check if miner is already running"""
     for miner in miners:
         minercheck = findProcessIdByName(miner)
     if minercheck == []:
@@ -81,7 +87,7 @@ def startminer():
 
 # noinspection PySimplifyBooleanCheck
 def checkgames():
-
+    """check if games in game list are running and kill miner if found"""
     for i in gameList.values():
         game = findProcessIdByName(i)
         if game == []:
