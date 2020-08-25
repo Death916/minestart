@@ -7,6 +7,7 @@ import GPUtil as gpu
 import keyboard
 import psutil
 import sys
+import os
 
 gameList = {"gears": "gears5.exe",
             "outer_worlds": "IndianaWindowsStore-Win64-Shipping.exe",
@@ -18,6 +19,7 @@ gameList = {"gears": "gears5.exe",
 
 }
 
+curminer
 miners = ['ccminer.exe', 'nanominer.exe']
 
 def checkgpu():
