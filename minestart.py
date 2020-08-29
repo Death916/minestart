@@ -9,6 +9,7 @@ import psutil
 import sys
 import os
 
+
 gameList = {"gears": "gears5.exe",
             "outer_worlds": "IndianaWindowsStore-Win64-Shipping.exe",
             "total_war": "Three_Kingdoms.exe",
@@ -19,7 +20,19 @@ gameList = {"gears": "gears5.exe",
 
 }
 
-curminer
+try:
+    firstminer = str(sys.argv[1])
+except:
+    
+        
+    firstminer = input('choose between ccminer or nanominer   ')
+    if firstminer  == "ccminer":
+            pass
+    elif firstminer == "nanominer":
+            global curminer
+            os.chdir('C:\\Users\\death\\Documents\\code\\Scripts\\nanominer-windows-1.10.0')
+            curminer = "nanominer.exe"
+    
 miners = ['ccminer.exe', 'nanominer.exe']
 
 
@@ -63,6 +76,7 @@ def checkminer():
     """check if miner is already running"""
     for miner in miners:
         minercheck = findProcessIdByName(miner)
+        
     if minercheck == []:
         print('miner not running')
         return 'notrunning'
@@ -70,19 +84,20 @@ def checkminer():
         print('miner running')
         print(miner)
         return "running"
+    
 
 
 
-def killminer():
-    miner = findProcessIdByName('ccminer.exe')
-    pid = miner[0]['pid']
+def killminer(miner):
+    minerkill = findProcessIdByName(miner)
+    pid = minerkill[0]['pid']
     psutil.Process(pid).kill()
     print('killed miner')
 
 
 def startminer():
     keyboard.press_and_release('alt+x') 
-    psutil.Popen(['E:/downloads/ccminer.bat'], creationflags=CREATE_NEW_CONSOLE)
+    psutil.Popen([curminer], creationflags=CREATE_NEW_CONSOLE)
 
 
 # noinspection PySimplifyBooleanCheck
@@ -98,7 +113,7 @@ def checkgames():
 
             miners = checkminer()
             if miners == 'running':
-                killminer()
+                killminer(curminer)
 
 
             return 'gamerunning'
@@ -130,7 +145,7 @@ while True:
     usage = str(gpu.showUtilization())
     #log(str(gpu.showUtilization()))
 
-    if gpus is 'isavailable' and miner is 'notrunning':
+    if gpus == 'isavailable' and miner == 'notrunning':
         x = checkgames()
         if x != 'gamerunning':
             print('starting miner')
@@ -138,14 +153,14 @@ while True:
             startminer()
             time.sleep(12)
 
-    if gpus is 'isavailable' and miner is 'running':
-        killminer() 
+    if gpus == 'isavailable' and miner == 'running':
+        killminer(miner) 
         keyboard.press_and_release('alt+y')
         time.sleep(30)
 
     if time.time() - curTime > 21600:
         if miner: #dont run if miner not running
-            killminer()
+            killminer(miner)
         print('restarting')
         curTime = time.time()
         time.sleep(10)
