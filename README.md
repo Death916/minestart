@@ -7,7 +7,7 @@ Automatically start crypto miner on pc startup
 
 
 If you like this software:
-Get  me a beer
+You can grab me a beer if you want
  ETH:
 0x8De9E8409F427602533c9493a5bAFa5E4F7A8266
 
