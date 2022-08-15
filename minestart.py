@@ -4,7 +4,7 @@
 import time
 from subprocess import CREATE_NEW_CONSOLE
 import GPUtil as gpu
-import keyboard
+#import keyboard
 import psutil
 import sys
 import os
@@ -25,13 +25,19 @@ try:
 except:
     
         
-    firstminer = input('choose between ccminer or nanominer   ')
+    firstminer = input('choose between "ccminer" or "nanominer" or "trex" exactly:  ')
     if firstminer  == "ccminer":
             pass
     elif firstminer == "nanominer":
             global curminer
             os.chdir('C:\\Users\\death\\Documents\\code\\Scripts\\nanominer-windows-1.10.0')
             curminer = "nanominer.exe"
+    elif firstminer == "trex":
+            os.chdir('C:\\Users\\death\\Documents\\code\\other\\t-rex-0.26.4-win')
+            curminer = "t-rex.exe"
+            pass
+    #TODO: add error handling for invalid input
+    #TODO: clean up code above with some type of dict lookup or soemthing
     
 miners = ['ccminer.exe', 'nanominer.exe']
 
@@ -127,7 +133,15 @@ def check_evga():
         if evga:
             print('evga started')
 
-
+def peak_hours():
+    """check if peak hours are active"""
+    if time.localtime().tm_hour in range(17, 20):
+        print('peak hours')
+        killminer(curminer)
+        return 'peak'
+    else:
+        print('off peak')
+        return 'offpeak'
 
 """def log(x):
     with open('C:/Users/Death/Documents/logs/gpulog.csv', 'a') as f:
@@ -149,13 +163,13 @@ while True:
         x = checkgames()
         if x != 'gamerunning':
             print('starting miner')
-            keyboard.press_and_release('alt+x')
+            #keyboard.press_and_release('alt+x')
             startminer()
             time.sleep(12)
 
     if gpus == 'isavailable' and miner == 'running':
         killminer(miner) 
-        keyboard.press_and_release('alt+y')
+        #keyboard.press_and_release('alt+y')
         time.sleep(30)
 
     if time.time() - curTime > 21600:
